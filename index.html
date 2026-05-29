@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Replace YOUR-DOMAIN.com before launch -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Lock a Folder on Your Desktop in Windows (All Versions) | DesktopFolderSecurity</title>
+    <meta name="description" content="Learn how to lock a folder on your Windows desktop (7, 10, 11). A complete guide to built-in methods, CMD tricks, and third-party software for real security.">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-background: #F5F0E8;
+            --color-hero-bg: #1A1A2E;
+            --color-primary-accent: #FF6B2B;
+            --color-secondary-accent: #00D4AA;
+            --color-pixel-detail: #FFD700;
+            --color-border: #1A1A2E;
+            --color-body-text: #1A1A2E;
+            --color-surface: #FFF9EF;
+            --color-muted: #574F45;
+            --font-heading: 'Press Start 2P', monospace;
+            --font-subheading: 'Space Mono', monospace;
+            --font-body: 'Space Mono', monospace;
+            --max-reading-width: 760px;
+            --max-wide-width: 1040px;
+            --section-padding-v: 64px;
+            --shadow-hard: 6px 6px 0 #1A1A2E;
+            --shadow-hard-small: 3px 3px 0 #1A1A2E;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-body-text);
+            background-color: var(--color-background);
+            background-image:
+                linear-gradient(rgba(26,26,46,0.035) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(26,26,46,0.035) 2px, transparent 2px);
+            background-size: 24px 24px;
+            line-height: 1.75;
+            font-size: 16px;
+            -webkit-font-smoothing: none;
+            text-rendering: geometricPrecision;
+        }
+
+        h1, h2, h3, h4, .site-name {
+            color: var(--color-body-text);
+            line-height: 1.35;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            line-height: 1.75;
+            color: var(--color-primary-accent);
+            text-shadow: 3px 3px 0 #000000;
+            letter-spacing: 0;
+        }
+
+        h2, h3, h4 {
+            font-family: var(--font-subheading);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding: 14px 16px;
+            display: inline-block;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            box-shadow: var(--shadow-hard-small);
+        }
+
+        h3 {
+            font-size: 22px;
+            margin-top: 2rem;
+            padding-left: 14px;
+            border-left: 8px solid var(--color-primary-accent);
+        }
+
+        h4 { font-size: 18px; }
+        p { margin-bottom: 1.5rem; }
+
+        a {
+            color: var(--color-hero-bg);
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            font-weight: 700;
+        }
+
+        a:hover { color: var(--color-primary-accent); }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid var(--color-border) !important;
+            box-shadow: var(--shadow-hard) !important;
+            background-color: var(--color-surface);
+            object-fit: contain;
+        }
+
+        ul, ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.7rem; }
+        code { background: var(--color-pixel-detail); padding: 2px 5px; border: 2px solid var(--color-border); font-size: 0.85em; }
+
+        .container { max-width: var(--max-reading-width); margin: 0 auto; padding: 0 24px; }
+        .container-wide { max-width: var(--max-wide-width); margin: 0 auto; padding: 0 24px; }
+        .container-full { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: var(--section-padding-v) 0; }
+        .bg-tint { background-color: rgba(255,255,255,0.35); border-top: 2px solid var(--color-border); border-bottom: 2px solid var(--color-border); }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--color-background);
+            border-bottom: 2px solid var(--color-border);
+            z-index: 100;
+            padding: 14px 0;
+            box-shadow: 0 4px 0 var(--color-border);
+        }
+
+        header.scrolled { padding: 10px 0; }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            gap: 20px;
+        }
+
+        .site-name {
+            font-family: var(--font-subheading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-body-text);
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px !important;
+            letter-spacing: -0.02em;
+            word-spacing: 0.12em;
+            white-space: nowrap;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            image-rendering: pixelated;
+            filter: drop-shadow(3px 3px 0 #1A1A2E);
+        }
+
+        .nav-links { display: flex; gap: 22px; align-items: center; }
+        .nav-links a {
+            color: var(--color-body-text);
+            font-weight: 700;
+            font-size: 0.88rem;
+            text-decoration: none;
+            border-bottom: 4px solid transparent;
+        }
+        .nav-links a:hover { border-bottom-color: var(--color-secondary-accent); color: var(--color-primary-accent); }
+
+        .btn-outline, .btn-filled-accent, .btn-outline-white, .copy-btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border: 2px solid var(--color-border) !important;
+            background: var(--color-primary-accent) !important;
+            color: var(--color-hero-bg) !important;
+            font-family: var(--font-subheading);
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: var(--shadow-hard-small) !important;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover, .btn-filled-accent:hover, .btn-outline-white:hover, .copy-btn:hover {
+            background: var(--color-pixel-detail) !important;
+            color: var(--color-hero-bg) !important;
+            text-decoration: none;
+        }
+
+        .btn-outline:active, .btn-filled-accent:active, .btn-outline-white:active, .copy-btn:active,
+        .pixel-pressed {
+            transform: translate(2px, 2px) !important;
+            box-shadow: 1px 1px 0 #1A1A2E !important;
+        }
+
+        .mobile-menu-btn { display: none; background: var(--color-surface); border: 2px solid var(--color-border); cursor: pointer; padding: 8px; box-shadow: var(--shadow-hard-small); }
+        .mobile-menu-btn span { display: block; width: 24px; height: 4px; background: var(--color-border); margin-bottom: 4px; }
+        .mobile-menu-btn span:last-child { margin-bottom: 0; }
+
+        .hero-editorial {
+            background-color: var(--color-hero-bg);
+            background-image:
+                linear-gradient(rgba(255,255,255,0.05) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 2px, transparent 2px);
+            background-size: 20px 20px;
+            padding: 84px 0 64px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .hero-editorial p, .hero-editorial .breadcrumb, .hero-editorial .hero-meta { color: #F5F0E8; }
+        .breadcrumb {
+            font-size: 0.75rem;
+            color: var(--color-muted);
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            background: var(--color-secondary-accent);
+            color: var(--color-hero-bg) !important;
+            border: 2px solid var(--color-border);
+            padding: 6px 10px;
+            box-shadow: var(--shadow-hard-small);
+        }
+
+        .pixel-progress {
+            display: grid;
+            grid-template-columns: repeat(10, 14px);
+            gap: 5px;
+            margin: 20px 0 28px;
+        }
+        .pixel-progress span {
+            width: 14px;
+            height: 14px;
+            display: block;
+            background: transparent;
+            border: 2px solid #F5F0E8;
+            animation: pixelFill 0.05s steps(1) forwards;
+        }
+        .pixel-progress span:nth-child(1) { animation-delay: 0.05s; }
+        .pixel-progress span:nth-child(2) { animation-delay: 0.12s; }
+        .pixel-progress span:nth-child(3) { animation-delay: 0.19s; }
+        .pixel-progress span:nth-child(4) { animation-delay: 0.26s; }
+        .pixel-progress span:nth-child(5) { animation-delay: 0.33s; }
+        .pixel-progress span:nth-child(6) { animation-delay: 0.40s; }
+        .pixel-progress span:nth-child(7) { animation-delay: 0.47s; }
+        .pixel-progress span:nth-child(8) { animation-delay: 0.54s; }
+        .pixel-progress span:nth-child(9) { animation-delay: 0.61s; }
+        .pixel-progress span:nth-child(10) { animation-delay: 0.68s; }
+        @keyframes pixelFill { to { background: var(--color-primary-accent); } }
+
+        .hero-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            margin: 0 0 26px;
+            color: var(--color-pixel-detail);
+            background: #000000;
+            border: 2px solid var(--color-pixel-detail);
+            box-shadow: 4px 4px 0 var(--color-primary-accent);
+            font-family: var(--font-heading);
+            font-size: 12px;
+        }
+        .hero-score strong { color: var(--color-secondary-accent); font-weight: 400; }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.9rem;
+            margin-top: 24px;
+            margin-bottom: 26px;
+            padding-bottom: 22px;
+            border-bottom: 2px solid rgba(245,240,232,0.45);
+        }
+
+        .quick-answer {
+            background: var(--color-background);
+            border: 2px solid var(--color-border);
+            border-left: 12px solid var(--color-primary-accent) !important;
+            padding: 24px 32px;
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 40px;
+        }
+        .quick-answer p { color: var(--color-body-text); margin-bottom: 0; font-size: 1.05rem; }
+        .qa-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: var(--color-primary-accent);
+            display: inline-block;
+            margin-bottom: 8px;
+            font-family: var(--font-heading);
+        }
+
+        .section-image {
+            width: 100%;
+            max-height: 440px;
+            object-fit: contain;
+            margin: 32px auto;
+        }
+
+        .method-difficulty {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 16px 0 24px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-muted);
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            padding: 12px;
+            box-shadow: var(--shadow-hard-small);
+        }
+        .diff-bars { display: flex; gap: 4px; }
+        .diff-bar, .diff-square {
+            width: 12px;
+            height: 12px;
+            background: var(--color-background);
+            border: 2px solid var(--color-border);
+        }
+        .diff-square.is-filled { background: var(--color-primary-accent); }
+        .diff-square.high.is-filled { background: var(--color-primary-accent); }
+        .diff-square.med.is-filled { background: var(--color-secondary-accent); }
+
+        .code-block-wrapper {
+            position: relative;
+            margin: 24px 0;
+            background: #000000;
+            border: 2px solid var(--color-border);
+            overflow: hidden;
+            box-shadow: var(--shadow-hard);
+        }
+        .code-header {
+            background: var(--color-hero-bg);
+            border-bottom: 2px solid var(--color-border);
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--color-pixel-detail);
+            font-size: 0.85rem;
+            font-family: var(--font-subheading);
+            gap: 16px;
+        }
+        .copy-btn { font-size: 0.8rem; padding: 6px 12px; }
+        .copy-btn.copied { background: var(--color-secondary-accent) !important; }
+        .code-block-wrapper pre { padding: 24px; margin: 0; overflow-x: auto; color: #F5F0E8; font-family: var(--font-body); font-size: 0.9rem; line-height: 1.5; }
+        .code-block-wrapper code { background: transparent; border: 0; color: inherit; padding: 0; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            box-shadow: var(--shadow-hard);
+        }
+        .comparison-table th, .comparison-table td { padding: 16px 18px; text-align: left; border: 2px solid var(--color-border); }
+        .comparison-table th { background: var(--color-hero-bg); color: #ffffff; font-weight: 700; font-family: var(--font-subheading); }
+        .comparison-table tbody tr:nth-child(odd) { background: #FFF9EF; }
+        .highlight-row { background: #FFF0B8 !important; }
+        .highlight-row td { font-weight: 700; }
+        .highlight-row td:last-child::before { content: "★ ★ ★ "; color: var(--color-pixel-detail); text-shadow: 1px 1px 0 var(--color-border); }
+
+        .feature-list { list-style: none; padding: 0; margin: 32px 0; }
+        .feature-item { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 2px solid rgba(245,240,232,0.25); }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-icon { width: 24px; height: 24px; flex-shrink: 0; color: var(--color-secondary-accent); }
+        .feature-title { font-weight: 700; color: var(--color-body-text); display: block; margin-bottom: 4px; }
+
+        .saas-moment {
+            background: var(--color-hero-bg);
+            color: #ffffff;
+            padding: 80px 0;
+            margin: 64px 0;
+            border-top: 2px solid var(--color-border);
+            border-bottom: 2px solid var(--color-border);
+        }
+        .saas-moment h2 { color: var(--color-primary-accent); background: #000000; margin-top: 0; text-shadow: 2px 2px 0 var(--color-border); }
+        .saas-moment p { color: #F5F0E8; font-size: 1.05rem; }
+        .saas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+        .saas-cta-group { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+        .btn-outline-white { background: var(--color-secondary-accent) !important; }
+        .saas-visual { background: #000000 !important; padding: 18px !important; border: 2px solid #F5F0E8 !important; box-shadow: var(--shadow-hard) !important; }
+
+        .method-picker-widget {
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            padding: 32px;
+            margin: 40px 0;
+            box-shadow: var(--shadow-hard);
+        }
+        .picker-options { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+        .picker-label {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+            font-weight: 700;
+            background: var(--color-background);
+            box-shadow: var(--shadow-hard-small);
+        }
+        .picker-label:hover { background: var(--color-pixel-detail); }
+        .picker-input:checked + .picker-label { background: var(--color-secondary-accent); }
+        .picker-input { display: none; }
+        .picker-result { display: none; margin-top: 24px; padding: 24px; background: var(--color-background); border: 2px solid var(--color-border); border-left: 10px solid var(--color-primary-accent) !important; box-shadow: var(--shadow-hard-small); }
+        .picker-result.active { display: block; }
+
+        .faq-item {
+            border: 2px solid var(--color-border);
+            background: var(--color-surface);
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-hard-small);
+        }
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: var(--color-surface);
+            border: none;
+            padding: 18px 20px;
+            font-family: var(--font-subheading);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-body-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .faq-item.active { border-left: 12px solid var(--color-primary-accent) !important; }
+        .faq-icon { font-size: 1.5rem; color: var(--color-primary-accent); font-weight: 700; }
+        .faq-question[aria-expanded="true"] .faq-icon { transform: none; color: var(--color-secondary-accent); }
+        .faq-answer { max-height: 0; overflow: hidden; padding: 0 20px; }
+        .faq-item.active .faq-answer { padding-bottom: 20px; color: var(--color-body-text); }
+
+        footer { background: var(--color-hero-bg) !important; color: rgba(245,240,232,0.8) !important; border-top: 2px solid var(--color-border); }
+        footer h4, footer .site-name { color: #ffffff !important; }
+        footer a { color: var(--color-pixel-detail) !important; }
+
+        .stage-clear-banner {
+            position: relative;
+            display: block;
+            width: max-content;
+            max-width: 100%;
+            margin: 0 0 28px;
+            padding: 16px 22px;
+            background: #000000;
+            color: var(--color-pixel-detail);
+            border: 2px solid var(--color-border);
+            box-shadow: 6px 6px 0 var(--color-primary-accent);
+            font-family: var(--font-heading);
+            font-size: 14px;
+            line-height: 1.6;
+            transform: translateY(-22px);
+            opacity: 0;
+            animation: stageDrop 0.45s steps(5) forwards;
+        }
+        .stage-clear-banner::before, .stage-clear-banner::after {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            clip-path: polygon(50% 0%, 62% 36%, 100% 36%, 69% 58%, 82% 100%, 50% 74%, 18% 100%, 31% 58%, 0% 36%, 38% 36%);
+            background: var(--color-pixel-detail);
+        }
+        .stage-clear-banner::before { left: -42px; top: 8px; }
+        .stage-clear-banner::after { right: -42px; bottom: 8px; background: var(--color-primary-accent); }
+        @keyframes stageDrop { to { transform: translateY(0); opacity: 1; } }
+
+        [style*="border-radius"] { border-radius: 0 !important; }
+        [style*="box-shadow"] { box-shadow: var(--shadow-hard) !important; }
+        [style*="border: 1px"], [style*="border:1px"] { border: 2px solid var(--color-border) !important; }
+        [style*="border-left: 4px"], [style*="border-left:4px"] { border-left-width: 10px !important; border-left-color: var(--color-primary-accent) !important; }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--color-background);
+                flex-direction: column;
+                align-items: stretch;
+                padding: 24px;
+                border-top: 2px solid var(--color-border);
+                box-shadow: 0 6px 0 var(--color-border);
+            }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .saas-grid { grid-template-columns: 1fr; gap: 32px; }
+            .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            h1 { font-size: 14px; line-height: 1.9; }
+            h2 { font-size: 22px; }
+            h3 { font-size: 18px; }
+            .site-name { font-size: 0.95rem; white-space: normal; }
+            .brand-mark { width: 30px; height: 30px; flex-basis: 30px; }
+            .pixel-progress { grid-template-columns: repeat(10, 6px); gap: 4px; }
+            .pixel-progress span { width: 6px; height: 6px; border-width: 1px; }
+            .hero-score { font-size: 9px; gap: 8px; }
+            .hero-meta { flex-wrap: wrap; }
+            .stage-clear-banner { font-size: 10px; width: 100%; }
+            .stage-clear-banner::before, .stage-clear-banner::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="site-header">
+        <div class="nav-wrapper">
+            <div class="site-name">
+                <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="Security shield lock graphic">
+                    <rect x="8" y="8" width="48" height="8" fill="#FFD700"></rect>
+                    <rect x="8" y="16" width="8" height="24" fill="#FFD700"></rect>
+                    <rect x="48" y="16" width="8" height="24" fill="#FF6B2B"></rect>
+                    <rect x="16" y="40" width="32" height="8" fill="#00D4AA"></rect>
+                    <rect x="24" y="48" width="16" height="8" fill="#00D4AA"></rect>
+                    <rect x="24" y="24" width="16" height="8" fill="#1A1A2E"></rect>
+                    <rect x="20" y="32" width="24" height="16" fill="#1A1A2E"></rect>
+                    <rect x="30" y="36" width="4" height="8" fill="#FFD700"></rect>
+                </svg>
+                <span>Desktop Folder Security</span>
+            </div>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+            
+            <nav class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#methods">Methods</a>
+                <a href="#comparison">Comparison</a>
+                <a href="#troubleshooting">Troubleshooting</a>
+                <a href="#faq">FAQ</a>
+                <a href="#recommendation" class="btn-outline">See Our Top Pick &rarr;</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-editorial">
+        <div class="container">
+            <div class="breadcrumb">Guide &middot; Windows Desktop Security</div>
+            <h1>How to Lock a Folder on Your Desktop in Windows (All Versions)</h1>
+            <div class="pixel-progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <p>Looking for a way to password protect a specific folder sitting on your Windows desktop? Whether you share a PC at home, need to secure work files from a remote location, or just want basic privacy, getting this right matters.</p>
+            
+            <div class="hero-meta">
+                <span>Editorial Team</span>
+                <span>&middot;</span>
+                <span>Updated May 2026</span>
+                <span>&middot;</span>
+                <span>8 min read</span>
+            </div>
+            <div class="hero-score"><span>SECURITY SCORE</span><strong data-score-target="27850">00000</strong></div>
+            
+            <div class="quick-answer">
+                <span class="qa-label">Quick Answer</span>
+                <p>Windows does not have a native "right-click and add password" feature for individual desktop folders. To truly lock a desktop folder, you must either use a batch script (low security), Windows Encrypting File System (ties to your user account, not a standalone password), or dedicated third-party software like <a href="https://newsoftwares.net/" target="_blank" rel="noopener noreferrer">Folder Lock</a> (high security, standalone password).</p>
+            </div>
+            
+            <img src="https://i.ibb.co/39b4VD9H/folder-lock-10-feature-banner.png" alt="Pixel-style Folder Lock security banner showing protected Windows desktop folders" class="section-image" style="margin-top: 0; box-shadow: none;">
+        </div>
+    </section>
+
+    <section id="overview" class="bg-tint">
+        <div class="container">
+            <h2>Why Locking a Desktop Folder is Different</h2>
+            <p>The desktop is the most convenient place to store files, which makes it the most vulnerable. When you search for "how to lock a folder on desktop windows 11" or "lock folder in windows 7", you're usually looking for a simple password prompt before a folder opens.</p>
+            
+            <p>Here is the reality: <strong>The Windows operating system does not offer simple folder password protection out of the box.</strong></p>
+            
+            <p>Many guides online will show you how to hide a folder or use a <a href="https://maketecheasier.com/password-lock-folder-windows/" target="_blank" rel="noopener noreferrer">command prompt script</a> to make it disappear. While these tricks work for casual privacy against a curious child, they offer zero actual encryption or security against anyone with basic computer knowledge. If you need to secure financial documents, private photos, or sensitive work files, you need to understand the difference between <em>hiding</em>, <em>permissions</em>, and actual <em>locking</em>.</p>
+            
+            <img src="https://i.ibb.co/0jt2s5sR/desktop-privacy-workspace-illustration.png" alt="Desktop privacy workspace illustration showing secured personal files on a Windows PC" class="section-image">
+            
+            <p>In this guide, we break down every available method—from free built-in tools to professional software—so you can choose the right level of security for your desktop files.</p>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="method-picker-widget">
+            <h3>Which method is right for you?</h3>
+            <p style="margin-bottom: 16px; font-size: 0.95rem; color: var(--color-meta-text);">Select your primary concern to see our recommendation:</p>
+            
+            <div class="picker-options">
+                <label class="picker-label">
+                    <input type="radio" name="security-need" value="casual" class="picker-input">
+                    I just want to hide a folder from kids or casual snoops (Free)
+                </label>
+                <label class="picker-label">
+                    <input type="radio" name="security-need" value="shared" class="picker-input">
+                    I share this PC login and need a specific password for my folder
+                </label>
+                <label class="picker-label">
+                    <input type="radio" name="security-need" value="network" class="picker-input">
+                    I need to lock folders on a network drive or USB
+                </label>
+            </div>
+            
+            <div id="result-casual" class="picker-result">
+                <strong>Recommendation: The Batch File Method (Method 1)</strong><br>
+                This free trick creates a basic script that hides your folder behind a password prompt. It's not encrypted, but it works fine for keeping honest people out.
+            </div>
+            <div id="result-shared" class="picker-result">
+                <strong>Recommendation: Dedicated Software (Method 3)</strong><br>
+                Windows built-in encryption (EFS) unlocks automatically if you share the same Windows login. To get a true password prompt for a specific desktop folder, you need a third-party tool like Folder Lock.
+            </div>
+            <div id="result-network" class="picker-result">
+                <strong>Recommendation: Premium Software</strong><br>
+                Native Windows tools struggle with portable or network locking. You will need dedicated encryption software to secure folders that leave your local drive.
+            </div>
+        </div>
+    </section>
+
+    <section id="methods">
+        <div class="container">
+            <h2>Password Protect Desktop Folder — All Methods</h2>
+            <p>Below are the three most common ways to lock a desktop folder, ranked from lowest security to highest.</p>
+
+            <!-- Method 1 -->
+            <h3>Method 1: The CMD Batch Script (Free, Low Security)</h3>
+            
+            <div class="method-difficulty">
+                <span>Difficulty:</span>
+                <div class="diff-bars">
+                    <div class="diff-bar filled"></div>
+                    <div class="diff-bar filled"></div>
+                    <div class="diff-bar"></div>
+                </div>
+                <span>Medium</span>
+                <span style="margin-left:16px;">Security:</span>
+                <div class="diff-bars">
+                    <div class="diff-bar filled high"></div>
+                    <div class="diff-bar"></div>
+                    <div class="diff-bar"></div>
+                </div>
+                <span>Low</span>
+            </div>
+
+            <p>This is the most common free method shared online. It uses a simple text script to create a hidden folder that requires a password to unhide. It works on Windows 10, Windows 11, and older versions like Windows 7.</p>
+            
+            <div class="code-block-wrapper">
+                <div class="code-header">
+                    <span>FolderLock.bat</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                </div>
+                <pre><code>cls
+@ECHO OFF
+title Folder Locker
+if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
+if NOT EXIST Private goto MDLOCKER
+:CONFIRM
+echo Are you sure you want to lock the folder(Y/N)
+set/p "cho=>"
+if %cho%==Y goto LOCK
+if %cho%==y goto LOCK
+if %cho%==n goto END
+if %cho%==N goto END
+echo Invalid choice.
+goto CONFIRM
+:LOCK
+ren Private "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+echo Folder locked
+goto End
+:UNLOCK
+echo Enter password to unlock folder
+set/p "pass=>"
+if NOT %pass%== YOUR_PASSWORD_HERE goto FAIL
+attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Private
+echo Folder Unlocked successfully
+goto End
+:FAIL
+echo Invalid password
+goto end
+:MDLOCKER
+md Private
+echo Private created successfully
+goto End
+:End</code></pre>
+            </div>
+            
+            <p><strong>How to use it:</strong></p>
+            <ol>
+                <li>Create a new text document on your desktop.</li>
+                <li>Paste the code above into the document.</li>
+                <li>Find <code>YOUR_PASSWORD_HERE</code> in the code and replace it with your desired password.</li>
+                <li>Save the file as <code>FolderLocker.bat</code> (ensure "All Files" is selected in the Save As type dropdown).</li>
+                <li>Double-click the .bat file. It creates a folder named "Private". Put your files in there.</li>
+                <li>Double-click the .bat file again to lock and hide the folder.</li>
+            </ol>
+            
+            <p><strong>Limitations:</strong> Anyone who right-clicks the .bat file and selects "Edit" can read your password in plain text. This only protects against someone who doesn't know how to use a computer.</p>
+
+            <img src="https://i.ibb.co/35v0S8cp/Windows-file-explorer.jpg" alt="Windows File Explorer view illustrating local folders before password protection" class="section-image">
+
+            <!-- Method 2 -->
+            <h3 style="margin-top: 48px;">Method 2: Windows EFS (Free, Account-Based)</h3>
+            
+             <div class="method-difficulty">
+                <span>Difficulty:</span>
+                <div class="diff-bars">
+                    <div class="diff-bar filled"></div>
+                    <div class="diff-bar filled"></div>
+                    <div class="diff-bar filled"></div>
+                </div>
+                <span>Easy</span>
+                <span style="margin-left:16px;">Security:</span>
+                <div class="diff-bars">
+                    <div class="diff-bar filled med"></div>
+                    <div class="diff-bar filled med"></div>
+                    <div class="diff-bar"></div>
+                </div>
+                <span>Medium (Depends on login)</span>
+            </div>
+
+            <p>The <a href="https://proprivacy.com/guides/encrypt-files-windows" target="_blank" rel="noopener noreferrer">Encrypting File System (EFS)</a> is built into Windows Pro, Enterprise, and Education editions (not available on Windows Home). It encrypts the folder, turning the text green.</p>
+            
+            <ol>
+                <li>Right-click the desktop folder and select <strong>Properties</strong>.</li>
+                <li>Click the <strong>Advanced</strong> button under the General tab.</li>
+                <li>Check <strong>Encrypt contents to secure data</strong>.</li>
+                <li>Click OK, then Apply.</li>
+            </ol>
+            
+            <p><strong>Limitations:</strong> EFS is tied to your Windows user account. It doesn't ask for a password when you double-click the folder. It simply opens. It only protects the folder if <em>another</em> user logs into the computer with a different account. If you leave your PC logged in and walk away, the folder is completely accessible.</p>
+            <img src="https://i.ibb.co/84gBFQ3x/windows-security-tools-microsoft-defender-and-built-in-features.jpg" alt="Windows security tools illustration showing built-in protection features for local files" class="section-image">
+        </div>
+    </section>
+
+    <section id="recommendation" class="saas-moment">
+        <div class="container-wide">
+            <div class="saas-grid">
+                <div>
+                    <span class="qa-label" style="color: rgba(255,255,255,0.6);">Editorial Pick</span>
+                    <h2>The Tool We Recommend for Real Desktop Security</h2>
+                    <p>If you need an actual password prompt every time a specific folder is opened on your desktop—regardless of who is logged into Windows—you need dedicated software.</p>
+                    <p>We recommend <strong>Folder Lock</strong>. It bypasses the limitations of Windows by offering true, on-the-fly <a href="https://psbios.com/file-encryption-explained/" target="_blank" rel="noopener noreferrer">256-bit AES encryption</a> and a standalone master password.</p>
+                    
+                    <ul class="feature-list" style="margin-top: 24px; border:none;">
+                        <li class="feature-item" style="padding: 12px 0; border:none; gap:12px;">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                            <span style="color:white;">Locks specific desktop folders with a unique password</span>
+                        </li>
+                        <li class="feature-item" style="padding: 12px 0; border:none; gap:12px;">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span style="color:white;">Files cannot be deleted, renamed, or moved while locked</span>
+                        </li>
+                        <li class="feature-item" style="padding: 12px 0; border:none; gap:12px;">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                            <span style="color:white;">Works on Windows 7, 10, and 11 (All editions)</span>
+                        </li>
+                        <li class="feature-item" style="padding: 12px 0; border:none; gap:12px;">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            <span style="color:white;">Synchronizes encrypted containers across up to five desktop and mobile devices</span>
+                        </li>
+                        <li class="feature-item" style="padding: 12px 0; border:none; gap:12px;">
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span style="color:white;">Converts desktop folders into portable locked USB drives for safe transit</span>
+                        </li>
+                    </ul>
+                    <img src="https://i.ibb.co/czvrxyF/folder-lock-10-protect-folders-screen.png" alt="Folder Lock 10 protect folders screen showing one click folder protection controls" class="section-image" style="max-height: 260px; margin: 24px 0;">
+                    
+                    <div class="saas-cta-group">
+                        <a href="https://www.newsoftwares.net/download/folderlock10-en/folderlock10-en.exe" class="btn-filled-accent" target="_blank" rel="noopener noreferrer">Try Folder Lock Free &rarr;</a>
+                        <a href="https://store.newsoftwares.net/?add=fl10" class="btn-outline-white" target="_blank" rel="noopener noreferrer">View Full Version Pricing &rarr;</a>
+                    </div>
+                </div>
+                <div class="saas-visual" style="padding: 0; border: none; background: transparent;">
+                    <img src="https://i.ibb.co/RGXFx5r3/folder-lock-10-screenshot-main-lockers.png" alt="Folder Lock 10 main lockers dashboard showing encrypted desktop folder containers" style="width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparison">
+        <div class="container-wide">
+            <h2>How to Lock a Folder on Desktop Windows vs Encryption — Key Differences</h2>
+            <p>Choosing the right method depends entirely on who you are trying to keep out.</p>
+            
+            <img src="https://i.ibb.co/Tq1X1cPW/Physical-Folder-Lockdown.jpg" alt="Physical and digital folder lockdown concept for comparing folder security options" class="section-image">
+            
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Security Method</th>
+                            <th>Password Prompt on Click?</th>
+                            <th>Encryption Level</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hidden Folders</strong></td>
+                            <td>No</td>
+                            <td>None</td>
+                            <td>Cleaning up desktop clutter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CMD Script (.bat)</strong></td>
+                            <td>Yes</td>
+                            <td>None (Easily bypassed)</td>
+                            <td>Keeping kids/roommates out</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Windows EFS</strong></td>
+                            <td>No (Tied to user login)</td>
+                            <td>High</td>
+                            <td>Corporate environments</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>Folder Lock Software</strong></td>
+                            <td>Yes (Requires master password)</td>
+                            <td>AES 256-bit (Military grade)</td>
+                            <td>True privacy on shared PCs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="tutorial" class="bg-tint">
+        <div class="container">
+            <h2>How How to Lock a Folder on Desktop Windows Works — Step-by-Step</h2>
+            <p>If you decide to use third-party software for true desktop security, the process is straightforward. Here is how it works using Folder Lock.</p>
+            
+            <ol>
+                <li><strong>Install and set a Master Password.</strong> This is the single password you will use to access all your secured desktop folders. Do not lose this.</li>
+                <li><strong>Drag and drop.</strong> Open the software and simply drag the folder from your desktop into the "Lock Files" interface.</li>
+                <li><strong>The folder disappears from the desktop.</strong> By default, locked folders are hidden from their original location for maximum security.</li>
+                <li><strong>To access files:</strong> Open the software, enter your password, and select "Unlock." The folder instantly reappears on your desktop.</li>
+            </ol>
+
+            <img src="https://i.ibb.co/pj61MNWJ/folder-lock-10-screenshot-safeguard-protect-folders.png" alt="Folder Lock 10 safeguard screen showing protected desktop folders workflow" class="section-image">
+
+            <p style="margin-top:24px; padding: 16px; background: var(--color-hero-bg); border-radius: var(--radius-card); border-left: 4px solid var(--color-primary-accent);">
+                <strong>Pro Tip — Wipe the originals:</strong> Once your sensitive desktop files are safely encrypted inside the software container, use its built-in data shredding utility to permanently destroy the original, unencrypted copies. This prevents anyone from recovering the unsecured files from your computer's temporary history.
+            </p>
+            <img src="https://i.ibb.co/Ndh0Qc8T/folder-lock-10-screenshot-safeguard-shred-files.png" alt="Folder Lock 10 secure file shredding screen for wiping original unencrypted desktop files" class="section-image">
+            
+            <p style="margin-top:24px; font-size:0.9rem; color:var(--color-meta-text); padding-left:16px; border-left:3px solid var(--color-border);">
+                <em>Editorial note: When using software like Folder Lock, never uninstall the program while folders are currently locked, as you may lose access to the data. Always unlock your folders first before uninstalling.</em>
+            </p>
+        </div>
+    </section>
+
+    <section id="troubleshooting">
+        <div class="container">
+            <h2>How to Remove Lock from Desktop Folder (Troubleshooting)</h2>
+            <p>If you are struggling to access a folder you locked previously, here are the safest ways to recover access as the owner.</p>
+            <img src="https://i.ibb.co/gLVNxgq4/Accessing-Data-Unlocking.jpg" alt="Unlocking protected files illustration for desktop folder lock recovery scenarios" class="section-image">
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Recovering from forgotten folder lock password
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>If you used a batch script, simply right-click the .bat file, select "Edit", and look for the line <code>if NOT %pass%== YOUR_PASSWORD goto FAIL</code>. Your password is right there in plain text.</p>
+                    <p>If you used premium software like Folder Lock, check if you enabled Master Password recovery via email during setup. Attempting to bypass professional encryption tools without the password will likely result in data corruption.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Folder is locked by Windows EFS and I can't open it
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>If the folder text is green (EFS encryption) and you receive an "Access Denied" error, you are likely logged into a different Windows user account than the one used to encrypt the folder. You must log out and log back in with the original user account, or import the EFS backup certificate you created when you first encrypted the folder.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Desktop folder lock windows updates causing issues
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Major Windows updates occasionally reset folder permissions. If you used third-party software, your locked folders are generally safe within their encrypted containers. If you used native Windows permissions and lost access after an update, you will need to right-click the folder, go to Properties > Security > Advanced, and take ownership of the folder as an administrator.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="bg-tint">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <img src="https://i.ibb.co/hFNDKdTq/PC-Mobile-Ecosystem.jpg" alt="PC and mobile security ecosystem showing encrypted folder access across devices" class="section-image">
+            
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Can I lock a desktop folder without software?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, but only with low security (using a CMD batch script) or via user-account encryption (EFS, which doesn't provide a double-click password prompt). For a true, secure password prompt on a desktop folder, third-party software is required.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Is there a difference between locking a desktop folder vs any other folder?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Technically, no. The desktop is just a folder located at <code>C:\Users\[YourName]\Desktop</code>. However, because the desktop is the most visible area of your PC, it is highly recommended that locking software hide the folder completely from view, rather than just preventing access, to avoid drawing attention to sensitive data.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Can I lock a folder on my desktop and still access it quickly?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. If you use a tool like Folder Lock, you can create an encrypted "Locker" (a secure virtual drive). You can place a shortcut to this locker on your desktop. Double-clicking the shortcut asks for your password, opens the locker like a normal USB drive, and when you are done, you simply close it to re-lock everything instantly.</p>
+                </div>
+            </div>
+            
+             <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    What happens to desktop folder locks when I restart?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Professional folder locking software will ensure folders remain locked and encrypted across reboots. Native Windows EFS also persists across restarts. However, simple RAM-based hiding tools may fail and reveal your folders if the PC crashes or reboots unexpectedly.</p>
+                </div>
+            </div>
+            
+             <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Can folder lock software be bypassed?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>It depends on the software. "Folder hiding" tools can easily be bypassed by booting the PC into Safe Mode or using a different operating system (like a Linux live USB). Premium encryption software that uses <a href="https://www.rswebsols.com/data-encryption-types-security/" target="_blank" rel="noopener noreferrer">AES-256</a> cannot be bypassed; without the password, the data remains scrambled and unreadable regardless of how the hard drive is accessed.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false">
+                    Can I access my locked Windows desktop folders on a Mac or phone?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. By utilizing the <a href="https://www.windowscentral.com/how-encrypt-data-storing-it-cloud-and-why-you-should" target="_blank" rel="noopener noreferrer">secure cloud backup functionality</a> in professional tools like Folder Lock, you can seamlessly synchronize your encrypted data. This allows you to securely open and manage those same protected files on macOS devices, as well as through dedicated Android and iPhone applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <div class="container-wide">
+            <h2>Folder Lock Pricing: Free vs Full Version</h2>
+            <p>If you choose to use professional security software, you will eventually have to decide between staying on the free tier or upgrading. Here is a breakdown of what the different versions of Folder Lock provide, based on real-world usage constraints.</p>
+            <img src="https://i.ibb.co/Psv235rk/folder-lock-10-pro-boxshot-160x220.png" alt="Folder Lock 10 Pro product boxshot for the full version pricing section" class="section-image" style="max-height: 260px;">
+            
+            <div class="table-responsive">
+                <table class="comparison-table" style="margin-top: 24px;">
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>Free Version</th>
+                            <th>Full Version ($39.95)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Secure Locker Size</strong></td>
+                            <td>Limited to 1 GB total storage</td>
+                            <td>Unlimited capacity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Device Synchronization</strong></td>
+                            <td>Links up to 2 devices</td>
+                            <td>Syncs across 5 different devices</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile App Integration</strong></td>
+                            <td>Included (iOS & Android)</td>
+                            <td>Included (iOS & Android)</td>
+                        </tr>
+                        <tr>
+                            <td><strong><a href="https://www.analyticsinsight.net/tech-news/how-to-encrypt-and-protect-usb-flash-drives-external-drives-and-memory-cards" target="_blank" rel="noopener noreferrer">Portable USB Protection</a></strong></td>
+                            <td>Not available</td>
+                            <td>Create self-contained locked drives</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secure File Shredding</strong></td>
+                            <td>Not available</td>
+                            <td>Permanently deletes original traces</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>Our Takeaway</strong></td>
+                            <td>Good for testing the interface and securing a handful of lightweight desktop documents.</td>
+                            <td>Necessary for video files, large photo archives, or taking secured data on the go via USB.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container" style="margin-top: 64px;">
+        <h3 style="margin-bottom: 24px; border-bottom: 1px solid var(--color-border); padding-bottom: 16px;">Other Security Tools from the Same Developer</h3>
+        <p style="font-size: 0.9rem; color: var(--color-meta-text); margin-bottom: 24px;">These tools are developed by <a href="https://newsoftwares.net/" target="_blank" rel="noopener noreferrer">NewSoftwares.net</a>, the same team behind Folder Lock.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+            <div style="border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-card);">
+                <img src="https://i.ibb.co/dJX03kDG/usb-secure-product-box-screenshot.jpg" alt="USB Secure product box and screenshot for portable password protected flash drives" style="width: 100%; height: auto; max-height: 140px; object-fit: contain; border-radius: 6px; margin-bottom: 16px;">
+                <h4 style="margin-bottom: 8px; font-size: 1.1rem;"><a href="https://mspoweruser.com/secure-your-data-top-usb-password-protection-tools/" target="_blank" rel="noopener noreferrer">USB Secure</a></h4>
+                <p style="font-size: 0.85rem; color: var(--color-meta-text); margin-bottom: 16px;">Portable password protection for USB drives. Runs directly from the drive without installation.</p>
+                <a href="#" style="font-size: 0.9rem; font-weight: 600;">Learn more &rarr;</a>
+            </div>
+            <div style="border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-card);">
+                <img src="https://i.ibb.co/PBv0CDc/cloud-secure-boxshot.png" alt="Cloud Secure boxshot for locking Dropbox Google Drive and OneDrive folders" style="width: 100%; height: auto; max-height: 140px; object-fit: contain; border-radius: 6px; margin-bottom: 16px;">
+                <h4 style="margin-bottom: 8px; font-size: 1.1rem;"><a href="https://www.24-7pressrelease.com/press-release/435143/newsoftwaresnet-releases-a-cloud-secure-password-protection-for-all-cloud-platforms" target="_blank" rel="noopener noreferrer">Cloud Secure</a></h4>
+                <p style="font-size: 0.85rem; color: var(--color-meta-text); margin-bottom: 16px;">Lock and encrypt your Dropbox, Google Drive, and OneDrive folders locally.</p>
+                <a href="#" style="font-size: 0.9rem; font-weight: 600;">Learn more &rarr;</a>
+            </div>
+             <div style="border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-card);">
+                <img src="https://i.ibb.co/RTVcfd3m/folder-protect-for-windows.jpg" alt="Folder Protect for Windows interface for locking hiding and setting permissions" style="width: 100%; height: auto; max-height: 140px; object-fit: contain; border-radius: 6px; margin-bottom: 16px;">
+                <h4 style="margin-bottom: 8px; font-size: 1.1rem;"><a href="https://www.newsoftwares.net/ns_download/folderprotect1-en/folder-protect.exe" target="_blank" rel="noopener noreferrer">Folder Protect</a></h4>
+                <p style="font-size: 0.85rem; color: var(--color-meta-text); margin-bottom: 16px;">Instantly lock, hide, or set read-only permissions on files and drives.</p>
+                <a href="#" style="font-size: 0.9rem; font-weight: 600;">Learn more &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <section style="margin: 64px 0 0; padding: 64px 0; border-top: 1px solid var(--color-border);">
+        <div class="container">
+            <h2>Our Verdict</h2>
+            <div class="stage-clear-banner" aria-hidden="true">STAGE CLEAR</div>
+            <p>Locking a folder on a Windows desktop is a common request with a surprisingly complex answer. If you just want to hide a text file from a roommate, the free CMD batch script method works fine. If you want seamless security in a corporate network where everyone has their own login, Windows EFS is the way to go.</p>
+            <p>But if you are like most users—sharing a home PC or a laptop and wanting a simple, secure password prompt when you click a specific desktop folder—you need dedicated software.</p>
+            <p>We recommend <strong>Folder Lock</strong> because it offers true AES encryption, handles desktop folders cleanly by hiding them when locked, and has stood the test of time across Windows 7, 10, and 11.</p>
+            <img src="https://i.ibb.co/C5sfWRJm/Military-Grade-File-Shield.jpg" alt="Military grade file shield illustration representing strong AES encryption for desktop folders" class="section-image">
+            
+            <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+                <a href="https://www.newsoftwares.net/download/folderlock10-en/folderlock10-en.exe" class="btn-outline" style="border-color: var(--color-primary-accent);" target="_blank" rel="noopener noreferrer">Download the free version &rarr;</a>
+                <a href="https://store.newsoftwares.net/?add=fl10" class="btn-outline" target="_blank" rel="noopener noreferrer">View full version pricing &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background-color: #1A1A1A; color: rgba(255,255,255,0.7); padding: 64px 0 32px; margin-top: 0; font-size: 0.9rem;">
+        <div class="container-wide">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 48px; margin-bottom: 32px;">
+                <div style="max-width: 300px;">
+                    <div class="site-name" style="margin-bottom: 16px;">
+                        <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="Security shield lock graphic">
+                    <rect x="8" y="8" width="48" height="8" fill="#FFD700"></rect>
+                    <rect x="8" y="16" width="8" height="24" fill="#FFD700"></rect>
+                    <rect x="48" y="16" width="8" height="24" fill="#FF6B2B"></rect>
+                    <rect x="16" y="40" width="32" height="8" fill="#00D4AA"></rect>
+                    <rect x="24" y="48" width="16" height="8" fill="#00D4AA"></rect>
+                    <rect x="24" y="24" width="16" height="8" fill="#1A1A2E"></rect>
+                    <rect x="20" y="32" width="24" height="16" fill="#1A1A2E"></rect>
+                    <rect x="30" y="36" width="4" height="8" fill="#FFD700"></rect>
+                </svg>
+                        <span>Desktop Folder Security</span>
+                    </div>
+                    <p style="font-size: 0.85rem; line-height: 1.6;">This site operates as an independent editorial resource. Some links may earn a referral commission at no cost to you. Product recommendations reflect editorial judgment and independent assessment.</p>
+                </div>
+                
+                <div>
+                    <h4 style="color: white; margin-bottom: 16px; font-size: 1rem;">Guide Links</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 8px;"><a href="#methods" style="color: rgba(255,255,255,0.7);">Free Methods</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#comparison" style="color: rgba(255,255,255,0.7);">Software Comparison</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#troubleshooting" style="color: rgba(255,255,255,0.7);">Troubleshooting</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#faq" style="color: rgba(255,255,255,0.7);">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                 <div>
+                    <h4 style="color: white; margin-bottom: 16px; font-size: 1rem;">Legal</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 8px;"><a href="#" style="color: rgba(255,255,255,0.7);">Privacy Policy</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#" style="color: rgba(255,255,255,0.7);">Terms of Use</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#" style="color: rgba(255,255,255,0.7);">Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.8rem;">
+                <div>&copy; 2026 DesktopFolderSecurity. All rights reserved.</div>
+                <div>Folder Lock is developed by <a href="https://newsoftwares.net/" target="_blank" rel="noopener noreferrer" style="color: white; text-decoration: underline;">NewSoftwares.net</a>.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "How to Lock a Folder on Your Desktop in Windows (All Versions)",
+          "description": "Learn how to lock a folder on your Windows desktop (7, 10, 11). A complete guide to built-in methods, CMD tricks, and third-party software for real security."
+        },
+        {
+          "@type": "Article",
+          "headline": "How to Lock a Folder on Your Desktop in Windows (All Versions)",
+          "author": {
+            "@type": "Organization",
+            "name": "Editorial Team"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "DesktopFolderSecurity"
+          },
+          "datePublished": "2026-05-22"
+        },
+        {
+          "@type": "HowTo",
+          "name": "How How to Lock a Folder on Desktop Windows Works — Step-by-Step",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "text": "Install and set a Master Password. This is the single password you will use to access all your secured desktop folders."
+            },
+            {
+              "@type": "HowToStep",
+              "text": "Drag and drop. Open the software and simply drag the folder from your desktop into the 'Lock Files' interface."
+            },
+            {
+              "@type": "HowToStep",
+              "text": "The folder disappears from the desktop. By default, locked folders are hidden from their original location for maximum security."
+            },
+            {
+              "@type": "HowToStep",
+              "text": "To access files: Open the software, enter your password, and select 'Unlock.' The folder instantly reappears on your desktop."
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I lock a desktop folder without software?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, but only with low security (using a CMD batch script) or via user-account encryption (EFS, which doesn't provide a double-click password prompt). For a true, secure password prompt on a desktop folder, third-party software is required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there a difference between locking a desktop folder vs any other folder?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Technically, no. The desktop is just a folder located at C:\\Users\\[YourName]\\Desktop. However, because the desktop is the most visible area of your PC, it is highly recommended that locking software hide the folder completely from view, rather than just preventing access, to avoid drawing attention to sensitive data."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can folder lock software be bypassed?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It depends on the software. 'Folder hiding' tools can easily be bypassed by booting the PC into Safe Mode or using a different operating system (like a Linux live USB). Premium encryption software that uses AES-256 cannot be bypassed; without the password, the data remains scrambled and unreadable regardless of how the hard drive is accessed."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "How to Lock a Folder on Your Desktop in Windows"
+            }
+          ]
+        },
+        {
+          "@type": "Organization",
+          "name": "NewSoftwares.net",
+          "description": "Publisher and developer of Folder Lock."
+        }
+      ]
+    }
+    </script>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            });
+
+            const mobileBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            if (mobileBtn && navLinks) {
+                mobileBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+            }
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        if (navLinks && navLinks.classList.contains('active')) navLinks.classList.remove('active');
+                        const headerOffset = 90;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const isActive = item.classList.contains('active');
+                    const answer = item.querySelector('.faq-answer');
+                    document.querySelectorAll('.faq-item').forEach(otherItem => {
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        const otherQuestion = otherItem.querySelector('.faq-question');
+                        otherItem.classList.remove('active');
+                        if (otherQuestion) otherQuestion.setAttribute('aria-expanded', 'false');
+                        if (otherAnswer) otherAnswer.style.maxHeight = null;
+                    });
+                    if (!isActive && answer) {
+                        item.classList.add('active');
+                        question.setAttribute('aria-expanded', 'true');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            const pickerInputs = document.querySelectorAll('.picker-input');
+            const pickerResults = document.querySelectorAll('.picker-result');
+            pickerInputs.forEach(input => {
+                input.addEventListener('change', (e) => {
+                    pickerResults.forEach(res => res.classList.remove('active'));
+                    const targetEl = document.getElementById('result-' + e.target.value);
+                    if (targetEl) targetEl.classList.add('active');
+                });
+            });
+
+            // PIXEL REVEAL: section headings reveal character-by-character.
+            const revealTargets = document.querySelectorAll('section h2, section h3');
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const revealHeading = (heading) => {
+                if (heading.dataset.revealed === 'true') return;
+                heading.dataset.revealed = 'true';
+                const fullText = heading.textContent;
+                heading.setAttribute('aria-label', fullText);
+                if (reducedMotion) return;
+                heading.textContent = '';
+                let i = 0;
+                const timer = setInterval(() => {
+                    heading.textContent += fullText.charAt(i);
+                    i += 1;
+                    if (i >= fullText.length) clearInterval(timer);
+                }, 60);
+            };
+            const headingObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) revealHeading(entry.target);
+                });
+            }, { threshold: 0.4 });
+            revealTargets.forEach(h => headingObserver.observe(h));
+
+            // 8-BIT PROGRESS BARS: convert each difficulty group to 10 pixel squares and fill on scroll.
+            document.querySelectorAll('.diff-bars').forEach(group => {
+                const totalOriginal = Math.max(group.querySelectorAll('.diff-bar').length, 1);
+                const filledOriginal = group.querySelectorAll('.diff-bar.filled').length;
+                const isHigh = !!group.querySelector('.diff-bar.high');
+                const isMed = !!group.querySelector('.diff-bar.med');
+                const level = Math.max(1, Math.round((filledOriginal / totalOriginal) * 10));
+                group.innerHTML = '';
+                for (let i = 0; i < 10; i += 1) {
+                    const square = document.createElement('span');
+                    square.className = 'diff-square' + (isHigh ? ' high' : '') + (isMed ? ' med' : '');
+                    square.dataset.fill = i < level ? 'true' : 'false';
+                    group.appendChild(square);
+                }
+            });
+            const barObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.querySelectorAll('.diff-square').forEach((square, index) => {
+                        if (square.dataset.fill === 'true') {
+                            setTimeout(() => square.classList.add('is-filled'), index * 50);
+                        }
+                    });
+                    barObserver.unobserve(entry.target);
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.method-difficulty').forEach(widget => barObserver.observe(widget));
+
+            // PIXEL BUTTON PRESS: click feedback on CTAs.
+            document.querySelectorAll('.btn-outline, .btn-filled-accent, .btn-outline-white').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.classList.add('pixel-pressed');
+                    setTimeout(() => btn.classList.remove('pixel-pressed'), 140);
+                });
+            });
+
+            // SCORE COUNTER: hero trust stat counts up like a game score display.
+            const score = document.querySelector('[data-score-target]');
+            if (score) {
+                const target = Number(score.dataset.scoreTarget || 0);
+                let current = 0;
+                const step = Math.max(1, Math.ceil(target / 70));
+                const timer = setInterval(() => {
+                    current = Math.min(target, current + step);
+                    score.textContent = String(current).padStart(5, '0');
+                    if (current >= target) clearInterval(timer);
+                }, 35);
+            }
+        });
+
+        function copyCode(btn) {
+            const pre = btn.parentElement.nextElementSibling;
+            const text = pre ? pre.innerText : '';
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => console.error('Failed to copy: ', err));
+        }
+    </script>
+</body>
+</html>
