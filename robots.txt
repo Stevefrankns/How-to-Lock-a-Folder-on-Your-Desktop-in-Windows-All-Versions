@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://how-to-lock-a-folder-on-your-desktop-in-windows-all-versions.vercel.app/sitemap.xml
